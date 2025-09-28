@@ -89,26 +89,8 @@ export default function PurchasePage() {
 
     setLoading(true)
     try {
-      const response = await fetch('/api/wechat/create-order', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          packageId: selectedPackage.id,
-          couponCode: selectedCoupon
-        }),
-      })
-
-      const data = await response.json()
-
-      if (response.ok) {
-        setOrderInfo(data)
-        setQrCodeImagePath(data.qrCodeImagePath)
-        setShowPayment(true)
-      } else {
-        alert(data.error || '创建订单失败')
-      }
+      // 使用支付方式选择器，而不是直接调用微信支付
+      setShowPayment(true)
     } catch (error) {
       alert('网络错误，请重试')
     } finally {
@@ -120,86 +102,94 @@ export default function PurchasePage() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
         <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full text-center">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">微信支付</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">选择支付方式</h2>
 
           <div className="mb-6">
             <div className="bg-gray-100 p-4 rounded-lg mb-4">
-              <p className="text-gray-600 text-sm">订单号</p>
-              <p className="font-mono text-sm">{orderInfo?.orderId}</p>
+              <p className="text-gray-600 text-sm">套餐名称</p>
+              <p className="font-medium">{selectedPackage?.name}</p>
             </div>
 
             <div className="bg-green-50 p-4 rounded-lg">
               <p className="text-green-800 font-semibold">支付金额</p>
               <p className="text-2xl font-bold text-green-600">
-                {formatPrice(orderInfo?.amount || 0)}
+                {formatPrice(calculateFinalPrice())}
               </p>
-              {(orderInfo?.discount || 0) > 0 && (
+              {calculateDiscount() > 0 && (
                 <p className="text-sm text-gray-600">
-                  原价: {formatPrice(orderInfo?.originalPrice || 0)}
+                  原价: {formatPrice(selectedPackage?.price || 0)}
                   <span className="text-red-500 ml-2">
-                    优惠: -{formatPrice(orderInfo?.discount || 0)}
+                    优惠: -{formatPrice(calculateDiscount())}
                   </span>
                 </p>
               )}
             </div>
           </div>
 
-          <div className="mb-6 p-8 bg-gray-50 rounded-lg">
-            <div className="w-48 h-48 mx-auto bg-white border-2 border-gray-300 rounded-lg overflow-hidden">
-              {qrCodeImagePath ? (
-                <img
-                  src={qrCodeImagePath}
-                  alt="微信支付二维码"
-                  className="w-full h-full object-cover"
-                />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center">
-                  <p className="text-xs text-gray-500 text-center">
-                    加载二维码中...
-                  </p>
-                </div>
-              )}
-            </div>
-            <p className="text-sm text-gray-600 mt-4">
-              💡 演示模式：点击下方"确认支付完成"按钮模拟支付
-            </p>
-            <p className="text-xs text-gray-500 mt-2">
-              实际部署时需要配置真实的微信支付商户
-            </p>
-          </div>
-
           <div className="space-y-3">
             <button
               onClick={async () => {
                 try {
-                  const response = await fetch('/api/payment/simulate', {
+                  // 调用支付宝支付
+                  const response = await fetch('/api/alipay/create-order', {
                     method: 'POST',
                     headers: {
                       'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                      orderId: orderInfo?.orderId
+                      packageId: selectedPackage?.id,
+                      couponCode: selectedCoupon
                     }),
                   })
 
                   const data = await response.json()
 
                   if (response.ok) {
-                    alert('支付成功！您的订单已完成')
-                    setShowPayment(false)
-                    setSelectedPackage(null)
-                    setSelectedCoupon('')
-                    setOrderInfo(null)
+                    // 跳转到支付宝沙箱支付页面
+                    window.open(data.paymentUrl, '_blank')
+                    alert('已跳转到支付宝沙箱支付页面')
                   } else {
-                    alert(data.error || '支付失败')
+                    alert(data.error || '创建订单失败')
                   }
                 } catch (error) {
                   alert('网络错误，请重试')
                 }
               }}
-              className="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition-colors"
+              className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors"
             >
-              确认支付完成
+              支付宝支付
+            </button>
+            <button
+              onClick={async () => {
+                try {
+                  // 调用PayPal支付
+                  const response = await fetch('/api/paypal/create-order', {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                      packageId: selectedPackage?.id,
+                      couponCode: selectedCoupon
+                    }),
+                  })
+
+                  const data = await response.json()
+
+                  if (response.ok) {
+                    // 跳转到PayPal沙箱支付页面
+                    window.open(data.paymentUrl, '_blank')
+                    alert('已跳转到PayPal沙箱支付页面')
+                  } else {
+                    alert(data.error || '创建订单失败')
+                  }
+                } catch (error) {
+                  alert('网络错误，请重试')
+                }
+              }}
+              className="w-full bg-yellow-500 text-white py-3 rounded-lg hover:bg-yellow-600 transition-colors"
+            >
+              PayPal支付
             </button>
             <button
               onClick={() => setShowPayment(false)}
@@ -232,13 +222,19 @@ export default function PurchasePage() {
             >
               <div className={`h-48 flex items-center justify-center relative overflow-hidden ${
                 pkg.name === 'North American' 
-                  ? 'bg-gradient-to-br from-blue-600 via-red-500 to-blue-800' 
+                  ? 'bg-cover bg-center bg-no-repeat' 
                   : pkg.name === 'Romantic Europe'
-                  ? 'bg-gradient-to-br from-purple-500 via-pink-400 to-purple-700'
-                  : 'bg-gradient-to-br from-yellow-600 via-orange-500 to-red-600'
-              }`}>
+                  ? 'bg-cover bg-center bg-no-repeat'
+                  : 'bg-cover bg-center bg-no-repeat'
+              }`} style={{
+                backgroundImage: pkg.name === 'North American' 
+                  ? 'url(/pic/北美.jpeg)' 
+                  : pkg.name === 'Romantic Europe'
+                  ? 'url(/pic/欧洲.jpeg)'
+                  : 'url(/pic/非洲.jpeg)'
+              }}>
                 {/* 背景装饰图案 */}
-                <div className="absolute inset-0 opacity-10">
+                <div className="absolute inset-0 opacity-20">
                   {pkg.name === 'North American' && (
                     <div className="absolute inset-0 flex items-center justify-center">
                       <div className="text-6xl">🏔️</div>
@@ -262,7 +258,7 @@ export default function PurchasePage() {
                   )}
                 </div>
                 
-                <div className="absolute inset-0 bg-black bg-opacity-30"></div>
+                <div className="absolute inset-0 bg-black bg-opacity-40"></div>
                 <div className="relative z-10 text-center">
                   <h3 className="text-2xl font-bold text-white mb-2 drop-shadow-lg">{pkg.name}</h3>
                   <div className="text-white text-sm opacity-90 drop-shadow">
@@ -345,12 +341,12 @@ export default function PurchasePage() {
               disabled={loading}
               className="w-full bg-indigo-600 text-white py-4 px-6 rounded-lg hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium text-lg"
             >
-              {loading ? '创建订单中...' : '立即购买'}
+              选择支付方式
             </button>
 
             <div className="mt-4 text-center">
               <p className="text-sm text-gray-500">
-                支持微信支付 | 安全可靠
+                支持支付宝、PayPal支付 | 安全可靠
               </p>
             </div>
           </div>

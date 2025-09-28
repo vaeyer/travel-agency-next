@@ -50,7 +50,7 @@ export default function Home() {
               href="/register"
               className="block w-full sm:w-auto bg-indigo-600 text-white px-8 py-4 rounded-lg text-lg font-medium hover:bg-indigo-700 transition-colors"
             >
-              立即注册，获取¥1999优惠券
+              立即注册
             </Link>
             <Link
               href="/login"

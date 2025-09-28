@@ -96,7 +96,7 @@ export default function RegisterPage() {
       <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">注册账户</h1>
-          <p className="text-gray-600">加入我们，获得¥1999新用户优惠券</p>
+          <p className="text-gray-600">创建您的账户</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
