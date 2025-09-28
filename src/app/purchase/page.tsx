@@ -107,7 +107,7 @@ export default function PurchasePage() {
           <div className="mb-6">
             <div className="bg-gray-100 p-4 rounded-lg mb-4">
               <p className="text-gray-600 text-sm">套餐名称</p>
-              <p className="font-medium">{selectedPackage?.name}</p>
+              <p className="font-medium text-gray-900">{selectedPackage?.name}</p>
             </div>
 
             <div className="bg-green-50 p-4 rounded-lg">
