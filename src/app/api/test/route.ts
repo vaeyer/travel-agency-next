@@ -9,7 +9,11 @@ export async function GET(request: NextRequest) {
       NEXT_PUBLIC_SUPABASE_ANON_KEY: !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
       SUPABASE_SERVICE_ROLE_KEY: !!process.env.SUPABASE_SERVICE_ROLE_KEY,
       JWT_SECRET: !!process.env.JWT_SECRET,
-      NODE_ENV: process.env.NODE_ENV
+      NODE_ENV: process.env.NODE_ENV,
+      // Show partial values to verify they're updated
+      SUPABASE_URL_LAST_10: process.env.NEXT_PUBLIC_SUPABASE_URL?.slice(-10),
+      ANON_KEY_LAST_10: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.slice(-10),
+      SERVICE_KEY_LAST_10: process.env.SUPABASE_SERVICE_ROLE_KEY?.slice(-10)
     }
 
     // Test database connection
