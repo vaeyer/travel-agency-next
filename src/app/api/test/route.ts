@@ -26,7 +26,8 @@ export async function GET(request: NextRequest) {
       message: 'Test API working',
       environment: envCheck,
       databaseConnection: error ? { error: error.message } : { success: true },
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
+      buildVersion: 'v2-env-fix'
     })
   } catch (error) {
     return NextResponse.json({
