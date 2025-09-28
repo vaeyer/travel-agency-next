@@ -16,18 +16,33 @@ export async function GET(request: NextRequest) {
       SERVICE_KEY_LAST_10: process.env.SUPABASE_SERVICE_ROLE_KEY?.slice(-10)
     }
 
-    // Test database connection
-    const { data, error } = await supabaseAdmin
-      .from('users')
-      .select('count')
-      .limit(1)
+    // Test database connection with detailed error info
+    let dbResult
+    try {
+      const { data, error } = await supabaseAdmin
+        .from('users')
+        .select('count')
+        .limit(1)
+
+      dbResult = error ? {
+        error: error.message,
+        code: error.code,
+        details: error.details,
+        hint: error.hint
+      } : { success: true, data }
+    } catch (err) {
+      dbResult = {
+        error: 'Connection failed',
+        details: err instanceof Error ? err.message : 'Unknown error'
+      }
+    }
 
     return NextResponse.json({
       message: 'Test API working',
       environment: envCheck,
-      databaseConnection: error ? { error: error.message } : { success: true },
+      databaseConnection: dbResult,
       timestamp: new Date().toISOString(),
-      buildVersion: 'v2-env-fix'
+      buildVersion: 'v3-detailed-debug'
     })
   } catch (error) {
     return NextResponse.json({
