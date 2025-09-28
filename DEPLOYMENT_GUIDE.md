@@ -46,18 +46,12 @@ Node.js 版本: 18.x
 根目录: /
 ```
 
-### 环境变量（必须配置）
+### 环境变量（必须在EdgeOne Pages控制台中配置）
 ```bash
 # Supabase 配置
 NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=sb_publishable_iFIZACtvZ1Wdltw1vDJuvg_7kK6J6_t
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key_here
 SUPABASE_SERVICE_ROLE_KEY=your_service_role_key_here
-
-# 微信支付配置
-WECHAT_APP_ID=your_wechat_app_id
-WECHAT_MCH_ID=your_merchant_id
-WECHAT_PAY_KEY=your_wechat_pay_key
-WECHAT_NOTIFY_URL=https://yourdomain.edgeone.com/api/wechat/notify
 
 # JWT 密钥
 JWT_SECRET=your-super-secret-jwt-key-for-production
@@ -65,6 +59,8 @@ JWT_SECRET=your-super-secret-jwt-key-for-production
 # 环境
 NODE_ENV=production
 ```
+
+⚠️ **重要**: 这些环境变量必须在 EdgeOne Pages 控制台中手动配置，不要在代码中硬编码！
 
 ## 📋 部署前检查清单
 
