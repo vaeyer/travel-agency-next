@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
       .from('coupons')
       .select('*')
       .eq('user_id', payload.userId)
-      .eq('used', false)
+      .eq('is_used', false)
       .gte('expires_at', new Date().toISOString())
       .order('created_at', { ascending: false })
 
