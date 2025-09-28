@@ -4,6 +4,15 @@ import { hashPassword, createWelcomeCoupon, generateJWT } from '@/lib/auth'
 
 export async function POST(request: NextRequest) {
   try {
+    // Check if environment variables are set
+    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
+      console.error('Missing Supabase environment variables')
+      return NextResponse.json({
+        error: 'Server configuration error',
+        details: 'Missing database configuration'
+      }, { status: 500 })
+    }
+
     const { email, password, name } = await request.json()
 
     if (!email || !password || !name) {
@@ -36,7 +45,11 @@ export async function POST(request: NextRequest) {
       .single()
 
     if (error) {
-      return NextResponse.json({ error: 'Failed to create user' }, { status: 500 })
+      console.error('Supabase error creating user:', error)
+      return NextResponse.json({
+        error: 'Failed to create user',
+        details: process.env.NODE_ENV === 'development' ? error.message : undefined
+      }, { status: 500 })
     }
 
     // Create welcome coupon
