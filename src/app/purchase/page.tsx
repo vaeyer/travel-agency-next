@@ -12,7 +12,7 @@ interface TravelPackage {
 
 interface Coupon {
   id: string
-  discount_amount: number
+  amount: number
   code: string
 }
 
@@ -76,7 +76,7 @@ export default function PurchasePage() {
   const calculateDiscount = () => {
     if (!selectedCoupon || !selectedPackage) return 0
     const coupon = coupons.find(c => c.code === selectedCoupon)
-    return coupon ? Math.min(coupon.discount_amount, selectedPackage.price) : 0
+    return coupon ? Math.min(coupon.amount, selectedPackage.price) : 0
   }
 
   const calculateFinalPrice = () => {
@@ -311,7 +311,7 @@ export default function PurchasePage() {
                   <option value="">不使用优惠券</option>
                   {coupons.map((coupon) => (
                     <option key={coupon.id} value={coupon.code}>
-                      {coupon.code} - {formatPrice(coupon.discount_amount)}
+                      {coupon.code} - {formatPrice(coupon.amount)}
                     </option>
                   ))}
                 </select>

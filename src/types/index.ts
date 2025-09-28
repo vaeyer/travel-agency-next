@@ -8,10 +8,9 @@ export interface User {
 export interface Coupon {
   id: string
   user_id: string
-  discount_amount: number
+  amount: number
   code: string
-  is_used: boolean
-  used_at?: string
+  used: boolean
   expires_at?: string
   created_at: string
 }

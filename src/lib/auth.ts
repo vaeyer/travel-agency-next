@@ -29,9 +29,9 @@ export async function createWelcomeCoupon(userId: string): Promise<string> {
     .from('coupons')
     .insert({
       user_id: userId,
-      discount_amount: 1999.00, // ¥1999
+      amount: 199900, // ¥1999 in cents
       code: couponCode,
-      is_used: false
+      used: false
     })
 
   if (error) {

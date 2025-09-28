@@ -38,11 +38,11 @@ export async function POST(request: NextRequest) {
         .select('*')
         .eq('code', couponCode)
         .eq('user_id', payload.userId)
-        .eq('is_used', false)
+        .eq('used', false)
         .single()
 
       if (!couponError && coupon) {
-        couponDiscount = coupon.discount_amount
+        couponDiscount = coupon.amount
         couponId = coupon.id
       }
     }
