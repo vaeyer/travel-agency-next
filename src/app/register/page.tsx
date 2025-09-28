@@ -173,7 +173,7 @@ export default function RegisterPage() {
             disabled={loading}
             className="w-full bg-indigo-600 text-white py-3 px-4 rounded-lg hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium"
           >
-            {loading ? '注册中...' : '注册账户'}
+            立即注册
           </button>
         </form>
 

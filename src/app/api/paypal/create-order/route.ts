@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase'
 import { verifyJWT } from '@/lib/auth'
-import { generateWeChatPayParams, buildXML } from '@/lib/wechat'
 
 export async function POST(request: NextRequest) {
   try {
@@ -72,16 +71,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Failed to create order' }, { status: 500 })
     }
 
-    // Mark coupon as used if applied
-    if (couponId) {
-      await supabaseAdmin
-        .from('coupons')
-        .update({ is_used: true, used_at: new Date().toISOString() })
-        .eq('id', couponId)
-    }
-
-    // 模拟支付模式 - 不需要真实的微信支付商户
-    console.log('模拟支付模式 - 创建订单:', {
+    // PayPal沙箱模拟模式
+    console.log('PayPal沙箱模拟模式 - 创建订单:', {
       orderId,
       packageName: packageData.name,
       originalPrice: packageData.price,
@@ -89,19 +80,22 @@ export async function POST(request: NextRequest) {
       finalPrice: finalPrice
     })
 
-    // 使用模拟的二维码图片
-    const qrCodeImagePath = '/pic/123.jpg'
+    // 模拟PayPal支付URL（沙箱环境）
+    const paymentUrl = `https://www.sandbox.paypal.com/checkoutnow?token=sandbox_token_${orderId}`
 
     return NextResponse.json({
       orderId,
-      qrCodeImagePath: qrCodeImagePath,
+      paypalOrderId: `sandbox_${orderId}`,
+      paymentUrl,
       amount: finalPrice,
       originalPrice: packageData.price,
-      discount: couponDiscount
+      discount: couponDiscount,
+      paymentMethod: 'paypal'
     })
 
   } catch (error) {
-    console.error('Create order error:', error)
+    console.error('Create PayPal order error:', error)
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 }
+

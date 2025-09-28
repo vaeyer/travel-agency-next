@@ -21,28 +21,34 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Order ID is required' }, { status: 400 })
     }
 
-    // Update order status to paid
+    // 更新订单状态为已支付
     const { data: order, error } = await supabaseAdmin
       .from('orders')
-      .update({
+      .update({ 
         payment_status: 'paid',
-        wechat_order_id: `WX_${Date.now()}_SIMULATED`
+        updated_at: new Date().toISOString()
       })
       .eq('id', orderId)
       .eq('user_id', payload.userId)
       .select()
       .single()
 
-    if (error || !order) {
-      return NextResponse.json({ error: 'Order not found or update failed' }, { status: 404 })
+    if (error) {
+      console.error('Update order error:', error)
+      return NextResponse.json({ error: 'Failed to update order' }, { status: 500 })
+    }
+
+    if (!order) {
+      return NextResponse.json({ error: 'Order not found' }, { status: 404 })
     }
 
     return NextResponse.json({
-      message: 'Payment successful',
+      message: 'Payment completed successfully',
       order: {
         id: order.id,
-        status: order.payment_status,
-        amount: order.final_price
+        package_name: order.package_name,
+        final_price: order.final_price,
+        payment_status: order.payment_status
       }
     })
 

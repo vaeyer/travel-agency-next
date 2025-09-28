@@ -9,8 +9,8 @@ export interface WeChatPayOrder {
 
 export function generateWeChatPayParams(order: WeChatPayOrder) {
   const params = {
-    appid: process.env.WECHAT_APP_ID!,
-    mch_id: process.env.WECHAT_MCH_ID!,
+    appid: process.env.WECHAT_APP_ID || 'demo_app_id',
+    mch_id: process.env.WECHAT_MCH_ID || 'demo_mch_id',
     nonce_str: generateNonceStr(),
     body: order.body,
     out_trade_no: order.out_trade_no,
@@ -34,7 +34,7 @@ export function generateSign(params: Record<string, string | number>): string {
     .map(key => `${key}=${params[key]}`)
     .join('&')
 
-  const stringSignTemp = `${stringA}&key=${process.env.WECHAT_PAY_KEY}`
+  const stringSignTemp = `${stringA}&key=${process.env.WECHAT_PAY_KEY || 'demo_pay_key'}`
 
   return crypto
     .createHash('md5')

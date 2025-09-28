@@ -161,7 +161,10 @@ export default function PurchasePage() {
               )}
             </div>
             <p className="text-sm text-gray-600 mt-4">
-              请使用微信扫描二维码完成支付
+              💡 演示模式：点击下方"确认支付完成"按钮模拟支付
+            </p>
+            <p className="text-xs text-gray-500 mt-2">
+              实际部署时需要配置真实的微信支付商户
             </p>
           </div>
 
@@ -227,8 +230,47 @@ export default function PurchasePage() {
               }`}
               onClick={() => setSelectedPackage(pkg)}
             >
-              <div className="h-48 bg-gradient-to-br from-indigo-400 to-purple-500 flex items-center justify-center">
-                <h3 className="text-2xl font-bold text-white">{pkg.name}</h3>
+              <div className={`h-48 flex items-center justify-center relative overflow-hidden ${
+                pkg.name === 'North American' 
+                  ? 'bg-gradient-to-br from-blue-600 via-red-500 to-blue-800' 
+                  : pkg.name === 'Romantic Europe'
+                  ? 'bg-gradient-to-br from-purple-500 via-pink-400 to-purple-700'
+                  : 'bg-gradient-to-br from-yellow-600 via-orange-500 to-red-600'
+              }`}>
+                {/* 背景装饰图案 */}
+                <div className="absolute inset-0 opacity-10">
+                  {pkg.name === 'North American' && (
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="text-6xl">🏔️</div>
+                      <div className="absolute top-4 left-4 text-4xl">🗽</div>
+                      <div className="absolute bottom-4 right-4 text-4xl">🌲</div>
+                    </div>
+                  )}
+                  {pkg.name === 'Romantic Europe' && (
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="text-6xl">🏰</div>
+                      <div className="absolute top-4 left-4 text-4xl">🌹</div>
+                      <div className="absolute bottom-4 right-4 text-4xl">🍷</div>
+                    </div>
+                  )}
+                  {pkg.name === 'Wild Africa' && (
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="text-6xl">🦁</div>
+                      <div className="absolute top-4 left-4 text-4xl">🐘</div>
+                      <div className="absolute bottom-4 right-4 text-4xl">🌅</div>
+                    </div>
+                  )}
+                </div>
+                
+                <div className="absolute inset-0 bg-black bg-opacity-30"></div>
+                <div className="relative z-10 text-center">
+                  <h3 className="text-2xl font-bold text-white mb-2 drop-shadow-lg">{pkg.name}</h3>
+                  <div className="text-white text-sm opacity-90 drop-shadow">
+                    {pkg.name === 'North American' && '🇺🇸 探索北美大陆的壮丽风光'}
+                    {pkg.name === 'Romantic Europe' && '🇪🇺 体验欧洲的浪漫文化'}
+                    {pkg.name === 'Wild Africa' && '🦁 感受非洲野生动物的魅力'}
+                  </div>
+                </div>
               </div>
               <div className="p-6">
                 <p className="text-gray-600 mb-4">{pkg.description}</p>

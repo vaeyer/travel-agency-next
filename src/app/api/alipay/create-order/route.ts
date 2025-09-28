@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase'
 import { verifyJWT } from '@/lib/auth'
-import { generateWeChatPayParams, buildXML } from '@/lib/wechat'
+import crypto from 'crypto'
 
 export async function POST(request: NextRequest) {
   try {
@@ -80,8 +80,8 @@ export async function POST(request: NextRequest) {
         .eq('id', couponId)
     }
 
-    // 模拟支付模式 - 不需要真实的微信支付商户
-    console.log('模拟支付模式 - 创建订单:', {
+    // 支付宝沙箱模拟模式
+    console.log('支付宝沙箱模拟模式 - 创建订单:', {
       orderId,
       packageName: packageData.name,
       originalPrice: packageData.price,
@@ -89,19 +89,26 @@ export async function POST(request: NextRequest) {
       finalPrice: finalPrice
     })
 
-    // 使用模拟的二维码图片
-    const qrCodeImagePath = '/pic/123.jpg'
+    // 模拟支付宝支付URL（沙箱环境）
+    const paymentUrl = `https://openapi.alipaydev.com/gateway.do?app_id=sandbox&method=alipay.trade.page.pay&charset=utf-8&sign_type=RSA2&timestamp=${new Date().toISOString().replace('T', ' ').substring(0, 19)}&version=1.0&notify_url=${encodeURIComponent(process.env.ALIPAY_NOTIFY_URL || 'https://yourdomain.com/api/alipay/notify')}&return_url=${encodeURIComponent(process.env.ALIPAY_RETURN_URL || 'https://yourdomain.com/payment/success')}&biz_content=${encodeURIComponent(JSON.stringify({
+      out_trade_no: orderId,
+      total_amount: (finalPrice / 100).toFixed(2),
+      subject: `旅行套餐 - ${packageData.name}`,
+      product_code: 'FAST_INSTANT_TRADE_PAY'
+    }))}&sign=sandbox_sign`
 
     return NextResponse.json({
       orderId,
-      qrCodeImagePath: qrCodeImagePath,
+      paymentUrl,
       amount: finalPrice,
       originalPrice: packageData.price,
-      discount: couponDiscount
+      discount: couponDiscount,
+      paymentMethod: 'alipay'
     })
 
   } catch (error) {
-    console.error('Create order error:', error)
+    console.error('Create alipay order error:', error)
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 }
+
