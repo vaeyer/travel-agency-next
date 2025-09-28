@@ -32,10 +32,21 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.production
 
 # vercel
 .vercel
 
+# Edge One Pages
+.edgeone/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# IDEs
+.vscode/
+.idea/
+
+# OS
+Thumbs.db
