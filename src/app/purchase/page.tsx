@@ -18,27 +18,7 @@ interface Coupon {
 }
 
 export default function PurchasePage() {
-  const [packages] = useState<TravelPackage[]>([
-    {
-      id: '1',
-      name: 'North American',
-      price: parseInt(process.env.NEXT_PUBLIC_PACKAGE_1_PRICE || '199900'),
-      description: '探索北美洲的壮丽风光，包括美国和加拿大的经典景点'
-    },
-    {
-      id: '2',
-      name: 'Romantic Europe',
-      price: parseInt(process.env.NEXT_PUBLIC_PACKAGE_2_PRICE || '299900'),
-      description: '浪漫欧洲之旅，体验法国、意大利、德国等国的文化魅力'
-    },
-    {
-      id: '3',
-      name: 'Wild Africa',
-      price: parseInt(process.env.NEXT_PUBLIC_PACKAGE_3_PRICE || '399900'),
-      description: '非洲野生动物大冒险，感受原始自然的震撼力量'
-    }
-  ])
-
+  const [packages, setPackages] = useState<TravelPackage[]>([])
   const [coupons, setCoupons] = useState<Coupon[]>([])
   const [selectedPackage, setSelectedPackage] = useState<TravelPackage | null>(null)
   const [selectedCoupon, setSelectedCoupon] = useState<string>('')
@@ -55,8 +35,100 @@ export default function PurchasePage() {
   const router = useRouter()
 
   useEffect(() => {
+    fetchPackages()
     fetchCoupons()
   }, [])
+
+  const fetchPackages = async () => {
+    try {
+      const response = await fetch('/api/packages')
+      if (response.ok) {
+        const data = await response.json()
+        setPackages(data.packages)
+      } else {
+        // 如果 API 失败，使用默认数据作为后备
+        setPackages([
+          {
+            id: '1',
+            name: 'North American',
+            price: parseInt(process.env.NEXT_PUBLIC_PACKAGE_1_PRICE || '199900'),
+            description: '探索北美洲的壮丽风光，包括美国和加拿大的经典景点'
+          },
+          {
+            id: '2',
+            name: 'Romantic Europe',
+            price: parseInt(process.env.NEXT_PUBLIC_PACKAGE_2_PRICE || '299900'),
+            description: '浪漫欧洲之旅，体验法国、意大利、德国等国的文化魅力'
+          },
+          {
+            id: '3',
+            name: 'Wild Africa',
+            price: parseInt(process.env.NEXT_PUBLIC_PACKAGE_3_PRICE || '399900'),
+            description: '非洲野生动物大冒险，感受原始自然的震撼力量'
+          },
+          {
+            id: '4',
+            name: 'Asian Adventure',
+            price: parseInt(process.env.NEXT_PUBLIC_PACKAGE_4_PRICE || '249900'),
+            description: '亚洲文化深度游，体验日本、韩国、泰国的独特魅力'
+          },
+          {
+            id: '5',
+            name: 'Ocean Paradise',
+            price: parseInt(process.env.NEXT_PUBLIC_PACKAGE_5_PRICE || '349900'),
+            description: '海岛度假天堂，马尔代夫、巴厘岛、普吉岛精选之旅'
+          },
+          {
+            id: '6',
+            name: 'Desert Explorer',
+            price: parseInt(process.env.NEXT_PUBLIC_PACKAGE_6_PRICE || '279900'),
+            description: '沙漠探险之旅，迪拜、摩洛哥、埃及的神秘体验'
+          }
+        ])
+      }
+    } catch (error) {
+      console.error('Failed to fetch packages:', error)
+      // 使用默认数据作为后备
+      setPackages([
+        {
+          id: '1',
+          name: 'North American',
+          price: parseInt(process.env.NEXT_PUBLIC_PACKAGE_1_PRICE || '199900'),
+          description: '探索北美洲的壮丽风光，包括美国和加拿大的经典景点'
+        },
+        {
+          id: '2',
+          name: 'Romantic Europe',
+          price: parseInt(process.env.NEXT_PUBLIC_PACKAGE_2_PRICE || '299900'),
+          description: '浪漫欧洲之旅，体验法国、意大利、德国等国的文化魅力'
+        },
+        {
+          id: '3',
+          name: 'Wild Africa',
+          price: parseInt(process.env.NEXT_PUBLIC_PACKAGE_3_PRICE || '399900'),
+          description: '非洲野生动物大冒险，感受原始自然的震撼力量'
+        },
+        {
+          id: '4',
+          name: 'Asian Adventure',
+          price: parseInt(process.env.NEXT_PUBLIC_PACKAGE_4_PRICE || '249900'),
+          description: '亚洲文化深度游，体验日本、韩国、泰国的独特魅力'
+        },
+        {
+          id: '5',
+          name: 'Ocean Paradise',
+          price: parseInt(process.env.NEXT_PUBLIC_PACKAGE_5_PRICE || '349900'),
+          description: '海岛度假天堂，马尔代夫、巴厘岛、普吉岛精选之旅'
+        },
+        {
+          id: '6',
+          name: 'Desert Explorer',
+          price: parseInt(process.env.NEXT_PUBLIC_PACKAGE_6_PRICE || '279900'),
+          description: '沙漠探险之旅，迪拜、摩洛哥、埃及的神秘体验'
+        }
+      ])
+    }
+  }
 
   const fetchCoupons = async () => {
     try {
@@ -210,7 +282,7 @@ export default function PurchasePage() {
           <p className="text-lg text-gray-600">探索世界，留下美好回忆</p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8 mb-12">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
           {packages.map((pkg) => (
             <div
               key={pkg.id}

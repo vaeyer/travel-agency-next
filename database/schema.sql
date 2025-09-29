@@ -70,7 +70,10 @@ CREATE INDEX IF NOT EXISTS idx_travel_packages_active ON travel_packages(is_acti
 INSERT INTO travel_packages (id, name, price, description, image) VALUES
 ('1', 'North American', 199900, '探索北美洲的壮丽风光，包括美国和加拿大的经典景点', '/pic/北美.jpeg'),
 ('2', 'Romantic Europe', 299900, '浪漫欧洲之旅，体验法国、意大利、德国等国的文化魅力', '/pic/欧洲.jpeg'),
-('3', 'Wild Africa', 399900, '非洲野生动物大冒险，感受原始自然的震撼力量', '/pic/非洲.jpeg')
+('3', 'Wild Africa', 399900, '非洲野生动物大冒险，感受原始自然的震撼力量', '/pic/非洲.jpeg'),
+('4', 'Asian Adventure', 249900, '亚洲文化深度游，体验日本、韩国、泰国的独特魅力', '/pic/asia.jpg'),
+('5', 'Ocean Paradise', 349900, '海岛度假天堂，马尔代夫、巴厘岛、普吉岛精选之旅', '/pic/ocean.jpg'),
+('6', 'Desert Explorer', 279900, '沙漠探险之旅，迪拜、摩洛哥、埃及的神秘体验', '/pic/desert.jpg')
 ON CONFLICT (id) DO UPDATE SET
   name = EXCLUDED.name,
   price = EXCLUDED.price,

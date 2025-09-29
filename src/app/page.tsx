@@ -1,6 +1,133 @@
+'use client'
+
 import Link from 'next/link'
+import { useState, useEffect } from 'react'
+
+interface TravelPackage {
+  id: string
+  name: string
+  price: number
+  description: string
+  image?: string
+}
 
 export default function Home() {
+  const [packages, setPackages] = useState<TravelPackage[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    fetchPackages()
+  }, [])
+
+  const fetchPackages = async () => {
+    try {
+      const response = await fetch('/api/packages')
+      if (response.ok) {
+        const data = await response.json()
+        setPackages(data.packages)
+      } else {
+        // 如果 API 失败，使用默认数据作为后备
+        setPackages([
+          {
+            id: '1',
+            name: 'North American',
+            price: 199900,
+            description: '探索北美洲的壮丽风光，包括美国和加拿大的经典景点',
+            image: '/pic/北美.jpeg'
+          },
+          {
+            id: '2',
+            name: 'Romantic Europe',
+            price: 299900,
+            description: '浪漫欧洲之旅，体验法国、意大利、德国等国的文化魅力',
+            image: '/pic/欧洲.jpeg'
+          },
+          {
+            id: '3',
+            name: 'Wild Africa',
+            price: 399900,
+            description: '非洲野生动物大冒险，感受原始自然的震撼力量',
+            image: '/pic/非洲.jpeg'
+          },
+          {
+            id: '4',
+            name: 'Asian Adventure',
+            price: 249900,
+            description: '亚洲文化深度游，体验日本、韩国、泰国的独特魅力',
+            image: '/pic/asia.jpg'
+          },
+          {
+            id: '5',
+            name: 'Ocean Paradise',
+            price: 349900,
+            description: '海岛度假天堂，马尔代夫、巴厘岛、普吉岛精选之旅',
+            image: '/pic/ocean.jpg'
+          },
+          {
+            id: '6',
+            name: 'Desert Explorer',
+            price: 279900,
+            description: '沙漠探险之旅，迪拜、摩洛哥、埃及的神秘体验',
+            image: '/pic/desert.jpg'
+          }
+        ])
+      }
+    } catch (error) {
+      console.error('Failed to fetch packages:', error)
+      // 使用默认数据作为后备
+      setPackages([
+        {
+          id: '1',
+          name: 'North American',
+          price: 199900,
+          description: '探索北美洲的壮丽风光，包括美国和加拿大的经典景点',
+          image: '/pic/北美.jpeg'
+        },
+        {
+          id: '2',
+          name: 'Romantic Europe',
+          price: 299900,
+          description: '浪漫欧洲之旅，体验法国、意大利、德国等国的文化魅力',
+          image: '/pic/欧洲.jpeg'
+        },
+        {
+          id: '3',
+          name: 'Wild Africa',
+          price: 399900,
+          description: '非洲野生动物大冒险，感受原始自然的震撼力量',
+          image: '/pic/非洲.jpeg'
+        },
+        {
+          id: '4',
+          name: 'Asian Adventure',
+          price: 249900,
+          description: '亚洲文化深度游，体验日本、韩国、泰国的独特魅力',
+          image: '/pic/asia.jpg'
+        },
+        {
+          id: '5',
+          name: 'Ocean Paradise',
+          price: 349900,
+          description: '海岛度假天堂，马尔代夫、巴厘岛、普吉岛精选之旅',
+          image: '/pic/ocean.jpg'
+        },
+        {
+          id: '6',
+          name: 'Desert Explorer',
+          price: 279900,
+          description: '沙漠探险之旅，迪拜、摩洛哥、埃及的神秘体验',
+          image: '/pic/desert.jpg'
+        }
+      ])
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const formatPrice = (price: number) => {
+    return `¥${(price / 100).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       <div className="container mx-auto px-4 py-16">
@@ -60,37 +187,35 @@ export default function Home() {
             </Link>
           </div>
 
-          <div className="mt-16 grid md:grid-cols-3 gap-8 text-left">
-            <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
-              <div className="h-48 relative flex items-center justify-center bg-cover bg-center" style={{backgroundImage: 'url(/pic/北美.jpeg)', backgroundColor: '#f0f0f0'}}>
-                <h3 className="text-2xl font-bold text-white relative z-10 drop-shadow-lg">North American</h3>
-              </div>
-              <div className="p-6">
-                <p className="text-gray-600 mb-4">探索北美洲的壮丽风光，包括美国和加拿大的经典景点</p>
-                <div className="text-3xl font-bold text-indigo-600">¥1,999</div>
-              </div>
+          {loading ? (
+            <div className="mt-16 flex justify-center">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
             </div>
-
-            <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
-              <div className="h-48 relative flex items-center justify-center bg-cover bg-center" style={{backgroundImage: 'url(/pic/欧洲.jpeg)', backgroundColor: '#f0f0f0'}}>
-                <h3 className="text-2xl font-bold text-white relative z-10 drop-shadow-lg">Romantic Europe</h3>
-              </div>
-              <div className="p-6">
-                <p className="text-gray-600 mb-4">浪漫欧洲之旅，体验法国、意大利、德国等国的文化魅力</p>
-                <div className="text-3xl font-bold text-indigo-600">¥2,999</div>
-              </div>
+          ) : (
+            <div className="mt-16 grid md:grid-cols-2 lg:grid-cols-3 gap-8 text-left">
+              {packages.map((pkg) => (
+                <div key={pkg.id} className="bg-white rounded-2xl shadow-xl overflow-hidden">
+                  <div 
+                    className="h-48 relative flex items-center justify-center bg-cover bg-center" 
+                    style={{
+                      backgroundImage: pkg.image ? `url(${pkg.image})` : undefined,
+                      backgroundColor: '#f0f0f0'
+                    }}
+                  >
+                    <h3 className="text-2xl font-bold text-white relative z-10 drop-shadow-lg">
+                      {pkg.name}
+                    </h3>
+                  </div>
+                  <div className="p-6">
+                    <p className="text-gray-600 mb-4">{pkg.description}</p>
+                    <div className="text-3xl font-bold text-indigo-600">
+                      {formatPrice(pkg.price)}
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
-
-            <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
-              <div className="h-48 relative flex items-center justify-center bg-cover bg-center" style={{backgroundImage: 'url(/pic/非洲.jpeg)', backgroundColor: '#f0f0f0'}}>
-                <h3 className="text-2xl font-bold text-white relative z-10 drop-shadow-lg">Wild Africa</h3>
-              </div>
-              <div className="p-6">
-                <p className="text-gray-600 mb-4">非洲野生动物大冒险，感受原始自然的震撼力量</p>
-                <div className="text-3xl font-bold text-indigo-600">¥3,999</div>
-              </div>
-            </div>
-          </div>
+          )}
         </div>
       </div>
     </div>
