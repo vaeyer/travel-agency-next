@@ -46,6 +46,11 @@ Node.js 版本: 18.x
 根目录: /
 ```
 
+⚠️ **重要修复说明**: 
+- 已移除冲突的 `next.config.ts` 文件
+- 已修正 `next.config.js` 配置，移除了 `output: 'standalone'` 以确保 API 路由正常工作
+- EdgeOne Pages 会自动处理 Next.js API 路由作为 Edge Functions
+
 ### 环境变量（必须在EdgeOne Pages控制台中配置）
 ```bash
 # Supabase 配置

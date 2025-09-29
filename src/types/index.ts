@@ -8,11 +8,12 @@ export interface User {
 export interface Coupon {
   id: string
   user_id: string
-  amount: number
+  discount_amount: number
   code: string
-  used: boolean
+  is_used: boolean
   expires_at?: string
   created_at: string
+  used_at?: string
 }
 
 export interface TravelPackage {

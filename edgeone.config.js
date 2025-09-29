@@ -7,7 +7,7 @@ module.exports = {
     // 构建命令
     command: 'npm run build',
 
-    // 输出目录
+    // 输出目录 - 默认的构建输出
     outputDirectory: '.next',
 
     // Node.js 版本

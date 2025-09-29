@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
         .select('*')
         .eq('code', couponCode)
         .eq('user_id', payload.userId)
-        .eq('used', false)
+        .eq('is_used', false)
         .single()
 
       if (!couponError && coupon) {

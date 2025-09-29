@@ -39,11 +39,11 @@ export async function POST(request: NextRequest) {
         .select('*')
         .eq('code', couponCode)
         .eq('user_id', payload.userId)
-        .eq('used', false)
+        .eq('is_used', false)
         .single()
 
       if (!couponError && coupon) {
-        couponDiscount = coupon.amount
+        couponDiscount = coupon.discount_amount
         couponId = coupon.id
       }
     }
@@ -76,7 +76,7 @@ export async function POST(request: NextRequest) {
     if (couponId) {
       await supabaseAdmin
         .from('coupons')
-        .update({ used: true })
+        .update({ is_used: true })
         .eq('id', couponId)
     }
 

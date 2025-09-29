@@ -1,8 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // For EdgeOne Pages deployment
-  output: 'standalone',
-
+  // EdgeOne Pages configuration
+  // 使用默认构建模式以支持 API Routes
+  
   // Image optimization
   images: {
     domains: ['localhost'],
