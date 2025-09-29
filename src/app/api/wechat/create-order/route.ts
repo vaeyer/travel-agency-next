@@ -90,7 +90,7 @@ export async function POST(request: NextRequest) {
     })
 
     // 使用模拟的二维码图片
-    const qrCodeImagePath = '/pic/123.jpg'
+    const qrCodeImagePath = '/pic/qr-code.jpg'
 
     return NextResponse.json({
       orderId,
