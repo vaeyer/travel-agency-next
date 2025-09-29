@@ -6,7 +6,7 @@ export async function GET(request: NextRequest) {
     // 获取所有活跃的旅行套餐
     const { data: packages, error } = await supabaseAdmin
       .from('travel_packages')
-      .select('*')
+      .select('id, name, price, description, image_url, destination, duration_days, included_services')
       .eq('is_active', true)
       .order('price', { ascending: true })
 
@@ -15,7 +15,19 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Failed to fetch packages' }, { status: 500 })
     }
 
-    return NextResponse.json({ packages })
+    // 转换数据格式以匹配前端期望的结构
+    const formattedPackages = packages.map(pkg => ({
+      id: pkg.id,
+      name: pkg.name,
+      price: Math.round(parseFloat(pkg.price) * 100), // 转换为分
+      description: pkg.description,
+      image: pkg.image_url,
+      destination: pkg.destination,
+      duration_days: pkg.duration_days,
+      included_services: pkg.included_services
+    }))
+
+    return NextResponse.json({ packages: formattedPackages })
 
   } catch (error) {
     console.error('Get packages error:', error)
@@ -25,21 +37,23 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const { id, name, price, description, image } = await request.json()
+    const { name, price, description, image_url, destination, duration_days, included_services } = await request.json()
 
-    if (!id || !name || !price) {
+    if (!name || !price) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
     }
 
     // 创建或更新旅行套餐
     const { data: packageData, error } = await supabaseAdmin
       .from('travel_packages')
-      .upsert({
-        id,
+      .insert({
         name,
-        price,
+        price: price / 100, // 转换为元
         description,
-        image,
+        image_url,
+        destination,
+        duration_days,
+        included_services,
         is_active: true
       })
       .select()
