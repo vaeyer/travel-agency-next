@@ -10,8 +10,8 @@ export async function onRequestPost(context) {
     const orderId = `ORDER_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     
     // 从环境变量获取价格配置
-    const basePrice = parseInt(env.BASE_PRICE || '199900'); // 默认 ¥1999 in cents
-    const discountAmount = parseInt(env.COUPON_DISCOUNT || '5000'); // 默认 ¥50 discount
+    const basePrice = parseInt(env.BASE_PRICE || '199900');
+    const discountAmount = parseInt(env.COUPON_DISCOUNT || '5000');
     const discount = couponCode ? discountAmount : 0;
     const finalPrice = Math.max(0, basePrice - discount);
     

@@ -4,8 +4,8 @@ export async function onRequestGet(context) {
     const { request, env } = context;
     
     // 从环境变量获取优惠券配置
-    const welcomeDiscount = parseInt(env.WELCOME_COUPON_AMOUNT || '199900'); // 默认 ¥1999
-    const saveDiscount = parseInt(env.SAVE_COUPON_AMOUNT || '5000'); // 默认 ¥50
+    const welcomeDiscount = parseInt(env.WELCOME_COUPON_AMOUNT || '199900');
+    const saveDiscount = parseInt(env.SAVE_COUPON_AMOUNT || '5000');
     
     // 模拟获取用户优惠券
     const coupons = [
