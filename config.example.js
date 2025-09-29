@@ -61,5 +61,23 @@ module.exports = {
     clientId: process.env.PAYPAL_CLIENT_ID || 'your_paypal_client_id',
     clientSecret: process.env.PAYPAL_CLIENT_SECRET || 'your_paypal_client_secret',
     mode: process.env.PAYPAL_MODE || 'sandbox'
+  },
+  
+  // ===================
+  // 邮件配置
+  // ===================
+  
+  // SMTP 邮件服务配置
+  smtp: {
+    host: process.env.SMTP_HOST || 'smtp.gmail.com',
+    port: parseInt(process.env.SMTP_PORT || '587'),
+    secure: process.env.SMTP_SECURE === 'true',
+    user: process.env.SMTP_USER || 'your-email@gmail.com',
+    pass: process.env.SMTP_PASS || 'your-app-password'
+  },
+  
+  // 网站配置
+  site: {
+    url: process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
   }
 }

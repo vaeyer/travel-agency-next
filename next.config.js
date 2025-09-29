@@ -5,7 +5,7 @@ const nextConfig = {
   
   // Image optimization
   images: {
-    domains: ['localhost'],
+    domains: process.env.NEXT_PUBLIC_IMAGE_DOMAINS ? process.env.NEXT_PUBLIC_IMAGE_DOMAINS.split(',') : ['localhost'],
     unoptimized: true
   },
 

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase'
 import { hashPassword, createWelcomeCoupon, generateJWT } from '@/lib/auth'
+import { sendVerificationEmail, generateVerificationCode } from '@/lib/email'
 
 export async function POST(request: NextRequest) {
   try {
@@ -30,16 +31,22 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'User already exists' }, { status: 400 })
     }
 
+    // Generate verification code
+    const verificationCode = generateVerificationCode()
+
     // Hash password
     const passwordHash = await hashPassword(password)
 
-    // Create user
+    // Create user with unverified status
     const { data: user, error } = await supabaseAdmin
       .from('users')
       .insert({
         email,
         name,
-        password_hash: passwordHash
+        password_hash: passwordHash,
+        email_verified: false,
+        verification_code: verificationCode,
+        verification_expires: new Date(Date.now() + 10 * 60 * 1000).toISOString() // 10 minutes
       })
       .select()
       .single()
@@ -52,26 +59,20 @@ export async function POST(request: NextRequest) {
       }, { status: 500 })
     }
 
-    // Create welcome coupon
-    const couponCode = await createWelcomeCoupon(user.id)
+    // Send verification email
+    const emailResult = await sendVerificationEmail(email, verificationCode, name)
+    
+    if (!emailResult.success) {
+      console.error('Failed to send verification email:', emailResult.error)
+      // Don't fail registration if email fails, but log the error
+    }
 
-    // Generate JWT token
-    const token = generateJWT(user.id)
-
-    const response = NextResponse.json({
-      message: 'User created successfully',
+    return NextResponse.json({
+      message: 'User created successfully. Please check your email for verification.',
       user: { id: user.id, email: user.email, name: user.name },
-      couponCode
+      emailSent: emailResult.success,
+      requiresVerification: true
     })
-
-    response.cookies.set('token', token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
-      maxAge: 7 * 24 * 60 * 60 // 7 days
-    })
-
-    return response
   } catch (error) {
     console.error('Registration error:', error)
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })

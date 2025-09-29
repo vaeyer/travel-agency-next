@@ -219,45 +219,14 @@ export default function PurchasePage() {
               }`}
               onClick={() => setSelectedPackage(pkg)}
             >
-              <div className={`h-48 flex items-center justify-center relative overflow-hidden ${
-                pkg.name === 'North American' 
-                  ? 'bg-cover bg-center bg-no-repeat' 
-                  : pkg.name === 'Romantic Europe'
-                  ? 'bg-cover bg-center bg-no-repeat'
-                  : 'bg-cover bg-center bg-no-repeat'
-              }`} style={{
+              <div className="h-48 flex items-center justify-center relative overflow-hidden bg-cover bg-center bg-no-repeat" style={{
                 backgroundImage: pkg.name === 'North American' 
                   ? 'url(/pic/北美.jpeg)' 
                   : pkg.name === 'Romantic Europe'
                   ? 'url(/pic/欧洲.jpeg)'
-                  : 'url(/pic/非洲.jpeg)'
+                  : 'url(/pic/非洲.jpeg)',
+                backgroundColor: '#f0f0f0'
               }}>
-                {/* 背景装饰图案 */}
-                <div className="absolute inset-0 opacity-20">
-                  {pkg.name === 'North American' && (
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="text-6xl">🏔️</div>
-                      <div className="absolute top-4 left-4 text-4xl">🗽</div>
-                      <div className="absolute bottom-4 right-4 text-4xl">🌲</div>
-                    </div>
-                  )}
-                  {pkg.name === 'Romantic Europe' && (
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="text-6xl">🏰</div>
-                      <div className="absolute top-4 left-4 text-4xl">🌹</div>
-                      <div className="absolute bottom-4 right-4 text-4xl">🍷</div>
-                    </div>
-                  )}
-                  {pkg.name === 'Wild Africa' && (
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="text-6xl">🦁</div>
-                      <div className="absolute top-4 left-4 text-4xl">🐘</div>
-                      <div className="absolute bottom-4 right-4 text-4xl">🌅</div>
-                    </div>
-                  )}
-                </div>
-                
-                <div className="absolute inset-0 bg-black bg-opacity-40"></div>
                 <div className="relative z-10 text-center">
                   <h3 className="text-2xl font-bold text-white mb-2 drop-shadow-lg">{pkg.name}</h3>
                   <div className="text-white text-sm opacity-90 drop-shadow">

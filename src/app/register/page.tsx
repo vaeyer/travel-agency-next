@@ -43,11 +43,15 @@ export default function RegisterPage() {
       const data = await response.json()
 
       if (response.ok) {
-        setCouponCode(data.couponCode)
-        setMessage('注册成功！您已获得¥1999新用户优惠券')
-        setTimeout(() => {
-          router.push('/purchase')
-        }, 3000)
+        if (data.requiresVerification) {
+          setMessage('注册成功！请检查您的邮箱并点击验证链接完成注册。')
+        } else {
+          setCouponCode(data.couponCode)
+          setMessage('注册成功！您已获得¥1999新用户优惠券')
+          setTimeout(() => {
+            router.push('/purchase')
+          }, 3000)
+        }
       } else {
         setMessage(data.error || '注册失败')
       }

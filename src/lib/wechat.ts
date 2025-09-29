@@ -15,7 +15,7 @@ export function generateWeChatPayParams(order: WeChatPayOrder) {
     body: order.body,
     out_trade_no: order.out_trade_no,
     total_fee: order.total_fee,
-    spbill_create_ip: '127.0.0.1',
+    spbill_create_ip: process.env.WECHAT_SPBILL_CREATE_IP || '127.0.0.1',
     notify_url: order.notify_url,
     trade_type: 'NATIVE' // 扫码支付
   }
