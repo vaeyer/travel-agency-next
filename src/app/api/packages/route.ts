@@ -24,7 +24,7 @@ export async function GET(request: NextRequest) {
         // 如果数据库中没有图片路径，根据套餐名称设置默认路径
         switch (pkg.name) {
           case 'North American':
-            imagePath = '/pic/北美.jpeg'
+            imagePath = '/pic/非洲.jpeg'
             break
           case 'Romantic Europe':
             imagePath = '/pic/欧洲.jpeg'
