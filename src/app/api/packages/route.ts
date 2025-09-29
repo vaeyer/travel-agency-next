@@ -16,16 +16,54 @@ export async function GET(request: NextRequest) {
     }
 
     // 转换数据格式以匹配前端期望的结构
-    const formattedPackages = packages.map(pkg => ({
-      id: pkg.id,
-      name: pkg.name,
-      price: Math.round(parseFloat(pkg.price) * 100), // 转换为分
-      description: pkg.description,
-      image: pkg.image_url,
-      destination: pkg.destination,
-      duration_days: pkg.duration_days,
-      included_services: pkg.included_services
-    }))
+    const formattedPackages = packages.map(pkg => {
+      // 根据套餐名称确定正确的图片路径
+      let imagePath = pkg.image_url
+      
+      if (!imagePath) {
+        // 如果数据库中没有图片路径，根据套餐名称设置默认路径
+        switch (pkg.name) {
+          case 'North American':
+            imagePath = '/pic/北美.jpeg'
+            break
+          case 'Romantic Europe':
+            imagePath = '/pic/欧洲.jpeg'
+            break
+          case 'Wild Africa':
+            imagePath = '/pic/非洲.jpeg'
+            break
+          case 'Asian Adventure':
+          case 'Tokyo Cherry Blossom':
+          case '东京樱花之旅':
+            imagePath = '/pic/东京樱花.jpeg'
+            break
+          case 'Bali Paradise':
+          case '巴厘岛度假套餐':
+            imagePath = '/pic/巴厘岛.jpeg'
+            break
+          case 'European Castles':
+          case '欧洲古堡探索':
+            imagePath = '/pic/欧洲古堡.jpeg'
+            break
+          default:
+            imagePath = '/pic/北美.jpeg' // 默认图片
+        }
+      } else if (imagePath === '/pic/asia.jpg') {
+        // 修复错误的图片路径
+        imagePath = '/pic/东京樱花.jpeg'
+      }
+
+      return {
+        id: pkg.id,
+        name: pkg.name,
+        price: Math.round(parseFloat(pkg.price) * 100), // 转换为分
+        description: pkg.description,
+        image: imagePath,
+        destination: pkg.destination,
+        duration_days: pkg.duration_days,
+        included_services: pkg.included_services
+      }
+    })
 
     return NextResponse.json({ packages: formattedPackages })
 
