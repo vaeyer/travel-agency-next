@@ -27,10 +27,35 @@ function createTransporter() {
   return nodemailer.createTransport(config)
 }
 
+// 获取站点URL
+function getSiteUrl(): string {
+  // 优先使用环境变量
+  if (process.env.NEXT_PUBLIC_SITE_URL) {
+    return process.env.NEXT_PUBLIC_SITE_URL
+  }
+  
+  // 开发环境默认值
+  if (process.env.NODE_ENV === 'development') {
+    return 'http://localhost:3000'
+  }
+  
+  // 生产环境：从请求头或环境推断
+  // 这里返回相对路径，让前端处理
+  return ''
+}
+
 // 发送验证邮件
-export async function sendVerificationEmail(email: string, verificationCode: string, name: string) {
+export async function sendVerificationEmail(email: string, verificationCode: string, name: string, requestUrl?: string) {
   try {
     const transporter = createTransporter()
+    
+    // 动态获取站点URL
+    let siteUrl = getSiteUrl()
+    if (!siteUrl && requestUrl) {
+      // 从请求URL中提取协议和域名
+      const url = new URL(requestUrl)
+      siteUrl = `${url.protocol}//${url.host}`
+    }
     
     const mailOptions = {
       from: `"Travel Agency" <${process.env.SMTP_USER}>`,
@@ -68,7 +93,7 @@ export async function sendVerificationEmail(email: string, verificationCode: str
             </p>
             
             <div style="text-align: center; margin: 30px 0;">
-              <a href="${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/verify-email?code=${verificationCode}&email=${encodeURIComponent(email)}" 
+              <a href="${siteUrl}/verify-email?code=${verificationCode}&email=${encodeURIComponent(email)}" 
                  style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 12px 30px; text-decoration: none; border-radius: 25px; font-weight: bold; display: inline-block;">
                 立即验证邮箱
               </a>
@@ -93,9 +118,17 @@ export async function sendVerificationEmail(email: string, verificationCode: str
 }
 
 // 发送欢迎邮件
-export async function sendWelcomeEmail(email: string, name: string, couponCode: string) {
+export async function sendWelcomeEmail(email: string, name: string, couponCode: string, requestUrl?: string) {
   try {
     const transporter = createTransporter()
+    
+    // 动态获取站点URL
+    let siteUrl = getSiteUrl()
+    if (!siteUrl && requestUrl) {
+      // 从请求URL中提取协议和域名
+      const url = new URL(requestUrl)
+      siteUrl = `${url.protocol}//${url.host}`
+    }
     
     const mailOptions = {
       from: `"Travel Agency" <${process.env.SMTP_USER}>`,
@@ -126,7 +159,7 @@ export async function sendWelcomeEmail(email: string, name: string, couponCode: 
             </div>
             
             <div style="text-align: center; margin: 30px 0;">
-              <a href="${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/purchase" 
+              <a href="${siteUrl}/purchase" 
                  style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 12px 30px; text-decoration: none; border-radius: 25px; font-weight: bold; display: inline-block;">
                 立即查看套餐
               </a>

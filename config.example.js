@@ -76,8 +76,8 @@ module.exports = {
     pass: process.env.SMTP_PASS || 'your-app-password'
   },
   
-  // 网站配置
+  // 网站配置 (可选，系统会自动从请求中获取)
   site: {
-    url: process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+    url: process.env.NEXT_PUBLIC_SITE_URL || '' // 留空让系统自动检测
   }
 }

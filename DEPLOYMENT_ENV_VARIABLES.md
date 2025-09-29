@@ -26,10 +26,10 @@ SMTP_USER=your-email@gmail.com
 SMTP_PASS=your-16-digit-app-password
 ```
 
-### 4. 网站配置
+### 4. 网站配置 (可选)
 ```bash
-# 网站域名 (生产环境)
-NEXT_PUBLIC_SITE_URL=https://your-domain.edgeone.com
+# 网站域名 (可选，系统会自动从请求中获取)
+# NEXT_PUBLIC_SITE_URL=https://your-domain.edgeone.com
 ```
 
 ## 🔧 可选环境变量
@@ -95,7 +95,9 @@ NODE_ENV=production
 - `SMTP_HOST`
 - `SMTP_USER`
 - `SMTP_PASS`
-- `NEXT_PUBLIC_SITE_URL`
+
+**可选配置的变量：**
+- `NEXT_PUBLIC_SITE_URL` (系统会自动从请求中获取)
 
 ### 3. 邮件服务配置说明
 
@@ -135,7 +137,7 @@ NODE_ENV=production
    - 监控邮件发送状态
 
 3. **域名配置**：
-   - 确保 `NEXT_PUBLIC_SITE_URL` 正确
+   - 系统会自动从请求中获取域名
    - 配置 CORS 策略
    - 检查 SSL 证书
 

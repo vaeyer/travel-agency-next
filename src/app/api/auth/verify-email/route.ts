@@ -58,7 +58,7 @@ export async function POST(request: NextRequest) {
     const token = generateJWT(user.id)
 
     // Send welcome email
-    const emailResult = await sendWelcomeEmail(user.email, user.name, couponCode)
+    const emailResult = await sendWelcomeEmail(user.email, user.name, couponCode, request.url)
     
     if (!emailResult.success) {
       console.error('Failed to send welcome email:', emailResult.error)
