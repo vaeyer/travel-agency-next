@@ -36,56 +36,10 @@ module.exports = {
     }
   ],
 
-  // 函数配置 - 将 Next.js API 路由映射为 Edge Functions
+  // 函数配置 - 使用 Functions 目录结构
   functions: {
-    'api/alipay/create-order': {
-      runtime: 'nodejs18.x',
-      handler: 'src/app/api/alipay/create-order/route.js'
-    },
-    'api/auth/login': {
-      runtime: 'nodejs18.x',
-      handler: 'src/app/api/auth/login/route.js'
-    },
-    'api/auth/register': {
-      runtime: 'nodejs18.x',
-      handler: 'src/app/api/auth/register/route.js'
-    },
-    'api/check-fields': {
-      runtime: 'nodejs18.x',
-      handler: 'src/app/api/check-fields/route.js'
-    },
-    'api/db-schema': {
-      runtime: 'nodejs18.x',
-      handler: 'src/app/api/db-schema/route.js'
-    },
-    'api/payment/simulate': {
-      runtime: 'nodejs18.x',
-      handler: 'src/app/api/payment/simulate/route.js'
-    },
-    'api/paypal/create-order': {
-      runtime: 'nodejs18.x',
-      handler: 'src/app/api/paypal/create-order/route.js'
-    },
-    'api/setup': {
-      runtime: 'nodejs18.x',
-      handler: 'src/app/api/setup/route.js'
-    },
-    'api/supabase-test': {
-      runtime: 'nodejs18.x',
-      handler: 'src/app/api/supabase-test/route.js'
-    },
-    'api/user/coupons': {
-      runtime: 'nodejs18.x',
-      handler: 'src/app/api/user/coupons/route.js'
-    },
-    'api/wechat/create-order': {
-      runtime: 'nodejs18.x',
-      handler: 'src/app/api/wechat/create-order/route.js'
-    },
-    'api/wechat/notify': {
-      runtime: 'nodejs18.x',
-      handler: 'src/app/api/wechat/notify/route.js'
-    }
+    // Functions 目录中的 API 路由将自动映射
+    // 例如：functions/api/alipay/create-order.js -> /api/alipay/create-order
   },
 
   // 缓存配置
