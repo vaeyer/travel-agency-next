@@ -18,8 +18,8 @@ export async function GET(request: NextRequest) {
     const { data: coupons, error } = await supabaseAdmin
       .from('coupons')
       .select('*')
-      .eq('user_id', payload.userId)
-      .eq('used', false)
+      .or(`user_id.eq.${payload.userId},user_id.is.null`)
+      .eq('is_used', false)
       .gte('expires_at', new Date().toISOString())
       .order('created_at', { ascending: false })
 

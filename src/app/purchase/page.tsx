@@ -304,7 +304,7 @@ export default function PurchasePage() {
                   ? 'url(/pic/巴厘岛.jpeg)'
                   : pkg.name === 'European Castles'
                   ? 'url(/pic/欧洲古堡.jpeg)'
-                  : 'url(/pic/qr-code.jpg)',
+                  : 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
                 backgroundColor: '#f0f0f0'
               }}>
                 <div className="relative z-10 text-center">

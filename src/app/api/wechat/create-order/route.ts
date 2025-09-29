@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
         .from('coupons')
         .select('*')
         .eq('code', couponCode)
-        .eq('user_id', payload.userId)
+        .or(`user_id.eq.${payload.userId},user_id.is.null`)
         .eq('is_used', false)
         .single()
 
