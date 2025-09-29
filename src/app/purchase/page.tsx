@@ -146,9 +146,8 @@ export default function PurchasePage() {
                   const data = await response.json()
 
                   if (response.ok) {
-                    // 跳转到支付宝沙箱支付页面
-                    window.open(data.paymentUrl, '_blank')
-                    alert('已跳转到支付宝沙箱支付页面')
+                    // 跳转到内部支付页面
+                    window.location.href = data.paymentUrl
                   } else {
                     alert(data.error || '创建订单失败')
                   }
@@ -178,9 +177,8 @@ export default function PurchasePage() {
                   const data = await response.json()
 
                   if (response.ok) {
-                    // 跳转到PayPal沙箱支付页面
-                    window.open(data.paymentUrl, '_blank')
-                    alert('已跳转到PayPal沙箱支付页面')
+                    // 跳转到内部支付页面
+                    window.location.href = data.paymentUrl
                   } else {
                     alert(data.error || '创建订单失败')
                   }

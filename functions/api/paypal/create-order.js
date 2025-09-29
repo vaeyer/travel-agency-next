@@ -1,4 +1,4 @@
-// EdgeOne Pages Function for Alipay Create Order
+// EdgeOne Pages Function for PayPal Create Order
 export async function onRequestPost(context) {
   try {
     const { request, env } = context;
@@ -7,14 +7,14 @@ export async function onRequestPost(context) {
     const { packageId, couponCode } = await request.json();
     
     // 模拟订单创建逻辑
-    const orderId = `ORDER_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    const orderId = `PAYPAL_ORDER_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     
     // 模拟价格计算
     const basePrice = 199900; // ¥1999 in cents
     const discount = couponCode ? 5000 : 0; // ¥50 discount if coupon provided
     const finalPrice = Math.max(0, basePrice - discount);
     
-    // 使用内部支付页面而不是真实支付宝
+    // 使用内部支付页面而不是真实PayPal
     const baseUrl = env.BASE_URL || 'https://yourdomain.edgeone.com';
     const paymentUrl = `${baseUrl}/payment?orderId=${orderId}&amount=${finalPrice}&packageName=${encodeURIComponent('北美套餐')}`;
     
@@ -24,7 +24,7 @@ export async function onRequestPost(context) {
       amount: finalPrice,
       originalPrice: basePrice,
       discount: discount,
-      paymentMethod: 'alipay'
+      paymentMethod: 'paypal'
     }), {
       headers: {
         'Content-Type': 'application/json',
@@ -35,7 +35,7 @@ export async function onRequestPost(context) {
     });
     
   } catch (error) {
-    console.error('Alipay create order error:', error);
+    console.error('PayPal create order error:', error);
     return new Response(JSON.stringify({ 
       error: 'Internal server error',
       message: error.message 
