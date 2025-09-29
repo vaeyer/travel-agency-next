@@ -15,7 +15,7 @@ SUPABASE_SERVICE_ROLE_KEY=your_service_role_key_here
 WECHAT_APP_ID=your_wechat_app_id
 WECHAT_MCH_ID=your_merchant_id
 WECHAT_PAY_KEY=your_wechat_pay_key
-WECHAT_NOTIFY_URL=https://yourdomain.edgeone.com/api/wechat/notify
+WECHAT_NOTIFY_URL=/api/wechat/notify
 
 # JWT 密钥
 JWT_SECRET=your-super-secret-jwt-key-for-production

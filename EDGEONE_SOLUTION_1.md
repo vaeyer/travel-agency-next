@@ -113,7 +113,7 @@ export async function onRequestOptions(context) {
 ### 测试 API 端点
 ```bash
 # 支付宝创建订单
-POST https://yourdomain.edgeone.com/api/alipay/create-order
+POST /api/alipay/create-order
 Content-Type: application/json
 {
   "packageId": "1",
@@ -121,7 +121,7 @@ Content-Type: application/json
 }
 
 # 用户登录
-POST https://yourdomain.edgeone.com/api/auth/login
+POST /api/auth/login
 Content-Type: application/json
 {
   "email": "test@example.com",
@@ -129,7 +129,7 @@ Content-Type: application/json
 }
 
 # 用户注册
-POST https://yourdomain.edgeone.com/api/auth/register
+POST /api/auth/register
 Content-Type: application/json
 {
   "email": "newuser@example.com",
@@ -138,7 +138,7 @@ Content-Type: application/json
 }
 
 # 获取优惠券
-GET https://yourdomain.edgeone.com/api/user/coupons
+GET /api/user/coupons
 ```
 
 ### 预期响应

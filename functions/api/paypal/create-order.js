@@ -14,9 +14,8 @@ export async function onRequestPost(context) {
     const discount = couponCode ? 5000 : 0; // ¥50 discount if coupon provided
     const finalPrice = Math.max(0, basePrice - discount);
     
-    // 使用内部支付页面而不是真实PayPal
-    const baseUrl = env.BASE_URL || 'https://yourdomain.edgeone.com';
-    const paymentUrl = `${baseUrl}/payment?orderId=${orderId}&amount=${finalPrice}&packageName=${encodeURIComponent('北美套餐')}`;
+    // 使用相对路径，让 EdgeOne Pages 自动处理域名
+    const paymentUrl = `/payment?orderId=${orderId}&amount=${finalPrice}&packageName=${encodeURIComponent('北美套餐')}`;
     
     return new Response(JSON.stringify({
       orderId,

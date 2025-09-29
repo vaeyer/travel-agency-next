@@ -103,19 +103,19 @@ functions: {
 ### 测试 API 端点
 ```bash
 # 支付宝创建订单
-POST https://yourdomain.edgeone.com/api/alipay/create-order
+POST /api/alipay/create-order
 
 # 用户登录
-POST https://yourdomain.edgeone.com/api/auth/login
+POST /api/auth/login
 
 # 用户注册
-POST https://yourdomain.edgeone.com/api/auth/register
+POST /api/auth/register
 
 # 数据库架构检查
-GET https://yourdomain.edgeone.com/api/db-schema
+GET /api/db-schema
 
 # Supabase 测试
-GET https://yourdomain.edgeone.com/api/supabase-test
+GET /api/supabase-test
 ```
 
 ### 预期结果
