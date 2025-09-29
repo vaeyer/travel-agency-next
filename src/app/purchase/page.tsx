@@ -68,21 +68,21 @@ export default function PurchasePage() {
           },
           {
             id: '4',
-            name: 'Asian Adventure',
+            name: 'Tokyo Cherry Blossom',
             price: parseInt(process.env.NEXT_PUBLIC_PACKAGE_4_PRICE || '249900'),
-            description: '亚洲文化深度游，体验日本、韩国、泰国的独特魅力'
+            description: '体验日本春季最美的樱花季节'
           },
           {
             id: '5',
-            name: 'Ocean Paradise',
+            name: 'Bali Paradise',
             price: parseInt(process.env.NEXT_PUBLIC_PACKAGE_5_PRICE || '349900'),
-            description: '海岛度假天堂，马尔代夫、巴厘岛、普吉岛精选之旅'
+            description: '在印尼巴厘岛享受阳光海滩'
           },
           {
             id: '6',
-            name: 'Desert Explorer',
+            name: 'European Castles',
             price: parseInt(process.env.NEXT_PUBLIC_PACKAGE_6_PRICE || '279900'),
-            description: '沙漠探险之旅，迪拜、摩洛哥、埃及的神秘体验'
+            description: '游览德国、奥地利、捷克的经典古堡'
           }
         ])
       }
