@@ -29,9 +29,10 @@ export async function createWelcomeCoupon(userId: string): Promise<string> {
     .from('coupons')
     .insert({
       user_id: userId,
-      amount: 199900, // ¥1999 in cents
+      discount_amount: 199900, // ¥1999 in cents
       code: couponCode,
-      used: false
+      is_used: false,
+      expires_at: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString() // 30 days
     })
 
   if (error) {
