@@ -110,21 +110,21 @@ export default function PurchasePage() {
         },
         {
           id: '4',
-          name: 'Asian Adventure',
+          name: 'Tokyo Cherry Blossom',
           price: parseInt(process.env.NEXT_PUBLIC_PACKAGE_4_PRICE || '249900'),
-          description: '亚洲文化深度游，体验日本、韩国、泰国的独特魅力'
+          description: '体验日本春季最美的樱花季节'
         },
         {
           id: '5',
-          name: 'Ocean Paradise',
+          name: 'Bali Paradise',
           price: parseInt(process.env.NEXT_PUBLIC_PACKAGE_5_PRICE || '349900'),
-          description: '海岛度假天堂，马尔代夫、巴厘岛、普吉岛精选之旅'
+          description: '在印尼巴厘岛享受阳光海滩'
         },
         {
           id: '6',
-          name: 'Desert Explorer',
+          name: 'European Castles',
           price: parseInt(process.env.NEXT_PUBLIC_PACKAGE_6_PRICE || '279900'),
-          description: '沙漠探险之旅，迪拜、摩洛哥、埃及的神秘体验'
+          description: '游览德国、奥地利、捷克的经典古堡'
         }
       ])
     }
@@ -296,7 +296,15 @@ export default function PurchasePage() {
                   ? 'url(/pic/北美.jpeg)' 
                   : pkg.name === 'Romantic Europe'
                   ? 'url(/pic/欧洲.jpeg)'
-                  : 'url(/pic/非洲.jpeg)',
+                  : pkg.name === 'Wild Africa'
+                  ? 'url(/pic/非洲.jpeg)'
+                  : pkg.name === 'Tokyo Cherry Blossom'
+                  ? 'url(/pic/东京樱花.jpeg)'
+                  : pkg.name === 'Bali Paradise'
+                  ? 'url(/pic/巴厘岛.jpeg)'
+                  : pkg.name === 'European Castles'
+                  ? 'url(/pic/欧洲古堡.jpeg)'
+                  : 'url(/pic/qr-code.jpg)',
                 backgroundColor: '#f0f0f0'
               }}>
                 <div className="relative z-10 text-center">
@@ -305,6 +313,9 @@ export default function PurchasePage() {
                     {pkg.name === 'North American' && '🇺🇸 探索北美大陆的壮丽风光'}
                     {pkg.name === 'Romantic Europe' && '🇪🇺 体验欧洲的浪漫文化'}
                     {pkg.name === 'Wild Africa' && '🦁 感受非洲野生动物的魅力'}
+                    {pkg.name === 'Tokyo Cherry Blossom' && '🌸 体验日本春季樱花之美'}
+                    {pkg.name === 'Bali Paradise' && '🏝️ 享受巴厘岛阳光海滩'}
+                    {pkg.name === 'European Castles' && '🏰 探索欧洲古堡历史'}
                   </div>
                 </div>
               </div>

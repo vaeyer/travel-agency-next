@@ -42,12 +42,12 @@ export async function POST(request: NextRequest) {
         .single()
 
       if (!couponError && coupon) {
-        couponDiscount = coupon.amount
+        couponDiscount = coupon.discount_amount
         couponId = coupon.id
       }
     }
 
-    const finalPrice = Math.max(0, packageData.price - couponDiscount)
+    const finalPrice = Math.max(0, Math.round(parseFloat(packageData.price) * 100) - couponDiscount)
 
     // Create order in database
     const orderId = `ORDER_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
@@ -59,7 +59,7 @@ export async function POST(request: NextRequest) {
         user_id: payload.userId,
         package_id: packageId,
         package_name: packageData.name,
-        original_price: packageData.price,
+        original_price: Math.round(parseFloat(packageData.price) * 100),
         coupon_discount: couponDiscount,
         final_price: finalPrice,
         payment_status: 'pending'
@@ -75,7 +75,7 @@ export async function POST(request: NextRequest) {
     console.log('PayPal沙箱模拟模式 - 创建订单:', {
       orderId,
       packageName: packageData.name,
-      originalPrice: packageData.price,
+      originalPrice: Math.round(parseFloat(packageData.price) * 100),
       discount: couponDiscount,
       finalPrice: finalPrice
     })
@@ -88,7 +88,7 @@ export async function POST(request: NextRequest) {
       paypalOrderId: `sandbox_${orderId}`,
       paymentUrl,
       amount: finalPrice,
-      originalPrice: packageData.price,
+      originalPrice: Math.round(parseFloat(packageData.price) * 100),
       discount: couponDiscount,
       paymentMethod: 'paypal'
     })

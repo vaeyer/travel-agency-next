@@ -99,24 +99,24 @@ export default function Home() {
         },
         {
           id: '4',
-          name: 'Asian Adventure',
+          name: 'Tokyo Cherry Blossom',
           price: 249900,
-          description: '亚洲文化深度游，体验日本、韩国、泰国的独特魅力',
-          image: '/pic/asia.jpg'
+          description: '体验日本春季最美的樱花季节',
+          image: '/pic/东京樱花.jpeg'
         },
         {
           id: '5',
-          name: 'Ocean Paradise',
+          name: 'Bali Paradise',
           price: 349900,
-          description: '海岛度假天堂，马尔代夫、巴厘岛、普吉岛精选之旅',
-          image: '/pic/ocean.jpg'
+          description: '在印尼巴厘岛享受阳光海滩',
+          image: '/pic/巴厘岛.jpeg'
         },
         {
           id: '6',
-          name: 'Desert Explorer',
+          name: 'European Castles',
           price: 279900,
-          description: '沙漠探险之旅，迪拜、摩洛哥、埃及的神秘体验',
-          image: '/pic/desert.jpg'
+          description: '游览德国、奥地利、捷克的经典古堡',
+          image: '/pic/欧洲古堡.jpeg'
         }
       ])
     } finally {

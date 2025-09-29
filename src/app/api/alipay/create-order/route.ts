@@ -48,7 +48,7 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    const finalPrice = Math.max(0, packageData.price - couponDiscount)
+    const finalPrice = Math.max(0, Math.round(parseFloat(packageData.price) * 100) - couponDiscount)
 
     // Create order in database
     const orderId = `ORDER_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
@@ -60,7 +60,7 @@ export async function POST(request: NextRequest) {
         user_id: payload.userId,
         package_id: packageId,
         package_name: packageData.name,
-        original_price: packageData.price,
+        original_price: Math.round(parseFloat(packageData.price) * 100),
         coupon_discount: couponDiscount,
         final_price: finalPrice,
         payment_status: 'pending'
