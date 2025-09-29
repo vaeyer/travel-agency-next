@@ -38,8 +38,12 @@ SMTP_PASS=your-16-digit-app-password
 ```bash
 # 价格配置 (单位：分)
 BASE_PRICE=199900
-COUPON_DISCOUNT=5000
 PACKAGE_NAME=Travel Package
+
+# 优惠券配置
+WELCOME_COUPON_AMOUNT=199900  # 新用户优惠券金额
+SAVE_COUPON_AMOUNT=5000       # 普通优惠券金额
+COUPON_DISCOUNT=5000          # 默认优惠券金额
 
 # 前端套餐价格
 NEXT_PUBLIC_PACKAGE_1_PRICE=199900

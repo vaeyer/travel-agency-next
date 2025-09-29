@@ -11,8 +11,20 @@ export async function onRequestPost(context) {
     
     // 从环境变量获取价格配置
     const basePrice = parseInt(env.BASE_PRICE || '199900');
-    const discountAmount = parseInt(env.COUPON_DISCOUNT || '5000');
-    const discount = couponCode ? discountAmount : 0;
+    
+    // 优惠券扣减逻辑 - 根据优惠券代码确定扣减金额
+    let discount = 0;
+    if (couponCode) {
+      // 根据优惠券代码确定扣减金额
+      if (couponCode.startsWith('WELCOME')) {
+        discount = parseInt(env.WELCOME_COUPON_AMOUNT || '199900'); // 新用户优惠券
+      } else if (couponCode.startsWith('SAVE')) {
+        discount = parseInt(env.SAVE_COUPON_AMOUNT || '5000'); // 普通优惠券
+      } else {
+        discount = parseInt(env.COUPON_DISCOUNT || '5000'); // 默认优惠券
+      }
+    }
+    
     const finalPrice = Math.max(0, basePrice - discount);
     
     // 从环境变量获取套餐名称
