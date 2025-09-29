@@ -4,6 +4,15 @@ import { verifyPassword, generateJWT } from '@/lib/auth'
 
 export async function POST(request: NextRequest) {
   try {
+    // Check if environment variables are set
+    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
+      console.error('Missing Supabase environment variables')
+      return NextResponse.json({
+        error: 'Server configuration error',
+        details: 'Missing database configuration'
+      }, { status: 500 })
+    }
+
     const { email, password } = await request.json()
 
     if (!email || !password) {

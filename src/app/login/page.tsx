@@ -30,10 +30,14 @@ export default function LoginPage() {
       const data = await response.json()
 
       if (response.ok) {
-        setMessage('登录成功！')
-        router.push('/purchase')
+        setMessage('登录成功！正在跳转...')
+        // 添加延迟确保消息显示
+        setTimeout(() => {
+          router.push('/purchase')
+        }, 1000)
       } else {
         setMessage(data.error || '登录失败')
+        console.error('Login failed:', data)
       }
     } catch (error) {
       setMessage('网络错误，请重试')
