@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 
 export default function Home() {
   return (
@@ -62,8 +63,15 @@ export default function Home() {
 
           <div className="mt-16 grid md:grid-cols-3 gap-8 text-left">
             <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
-              <div className="h-48 bg-gradient-to-br from-indigo-400 to-purple-500 flex items-center justify-center">
-                <h3 className="text-2xl font-bold text-white">North American</h3>
+              <div className="h-48 relative flex items-center justify-center">
+                <Image
+                  src="/pic/北美.jpeg"
+                  alt="North American"
+                  fill
+                  className="object-cover"
+                />
+                <div className="absolute inset-0 bg-black bg-opacity-40"></div>
+                <h3 className="text-2xl font-bold text-white relative z-10">North American</h3>
               </div>
               <div className="p-6">
                 <p className="text-gray-600 mb-4">探索北美洲的壮丽风光，包括美国和加拿大的经典景点</p>
@@ -72,8 +80,15 @@ export default function Home() {
             </div>
 
             <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
-              <div className="h-48 bg-gradient-to-br from-pink-400 to-red-500 flex items-center justify-center">
-                <h3 className="text-2xl font-bold text-white">Romantic Europe</h3>
+              <div className="h-48 relative flex items-center justify-center">
+                <Image
+                  src="/pic/欧洲.jpeg"
+                  alt="Romantic Europe"
+                  fill
+                  className="object-cover"
+                />
+                <div className="absolute inset-0 bg-black bg-opacity-40"></div>
+                <h3 className="text-2xl font-bold text-white relative z-10">Romantic Europe</h3>
               </div>
               <div className="p-6">
                 <p className="text-gray-600 mb-4">浪漫欧洲之旅，体验法国、意大利、德国等国的文化魅力</p>
@@ -82,8 +97,15 @@ export default function Home() {
             </div>
 
             <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
-              <div className="h-48 bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center">
-                <h3 className="text-2xl font-bold text-white">Wild Africa</h3>
+              <div className="h-48 relative flex items-center justify-center">
+                <Image
+                  src="/pic/非洲.jpeg"
+                  alt="Wild Africa"
+                  fill
+                  className="object-cover"
+                />
+                <div className="absolute inset-0 bg-black bg-opacity-40"></div>
+                <h3 className="text-2xl font-bold text-white relative z-10">Wild Africa</h3>
               </div>
               <div className="p-6">
                 <p className="text-gray-600 mb-4">非洲野生动物大冒险，感受原始自然的震撼力量</p>
