@@ -22,7 +22,7 @@ export async function onRequestPost(context) {
     // 模拟注册成功
     const userId = `user_${Date.now()}`;
     const token = `token_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    const couponCode = `WELCOME${Date.now()}`;
+    const couponCode = `${env.WELCOME_COUPON_PREFIX || 'WELCOME'}${Date.now()}`;
     
     return new Response(JSON.stringify({
       success: true,

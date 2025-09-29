@@ -9,13 +9,17 @@ export async function onRequestPost(context) {
     // 模拟订单创建逻辑
     const orderId = `ORDER_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     
-    // 模拟价格计算
-    const basePrice = 199900; // ¥1999 in cents
-    const discount = couponCode ? 5000 : 0; // ¥50 discount if coupon provided
+    // 从环境变量获取价格配置
+    const basePrice = parseInt(env.BASE_PRICE || '199900'); // 默认 ¥1999 in cents
+    const discountAmount = parseInt(env.COUPON_DISCOUNT || '5000'); // 默认 ¥50 discount
+    const discount = couponCode ? discountAmount : 0;
     const finalPrice = Math.max(0, basePrice - discount);
     
+    // 从环境变量获取套餐名称
+    const packageName = env.PACKAGE_NAME || 'Travel Package';
+    
     // 使用相对路径，让 EdgeOne Pages 自动处理域名
-    const paymentUrl = `/payment?orderId=${orderId}&amount=${finalPrice}&packageName=${encodeURIComponent('北美套餐')}`;
+    const paymentUrl = `/payment?orderId=${orderId}&amount=${finalPrice}&packageName=${encodeURIComponent(packageName)}`;
     
     return new Response(JSON.stringify({
       orderId,

@@ -3,21 +3,25 @@ export async function onRequestGet(context) {
   try {
     const { request, env } = context;
     
+    // 从环境变量获取优惠券配置
+    const welcomeDiscount = parseInt(env.WELCOME_COUPON_AMOUNT || '199900'); // 默认 ¥1999
+    const saveDiscount = parseInt(env.SAVE_COUPON_AMOUNT || '5000'); // 默认 ¥50
+    
     // 模拟获取用户优惠券
     const coupons = [
       {
         id: 'coupon_1',
-        code: 'WELCOME2024',
-        discount_amount: 199900, // ¥1999 in cents
+        code: env.WELCOME_COUPON_CODE || 'WELCOME2024',
+        discount_amount: welcomeDiscount,
         is_used: false,
-        expires_at: '2024-12-31T23:59:59Z'
+        expires_at: env.COUPON_EXPIRES_AT || '2024-12-31T23:59:59Z'
       },
       {
         id: 'coupon_2', 
-        code: 'SAVE50',
-        discount_amount: 5000, // ¥50 in cents
+        code: env.SAVE_COUPON_CODE || 'SAVE50',
+        discount_amount: saveDiscount,
         is_used: false,
-        expires_at: '2024-12-31T23:59:59Z'
+        expires_at: env.COUPON_EXPIRES_AT || '2024-12-31T23:59:59Z'
       }
     ];
     

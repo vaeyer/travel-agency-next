@@ -22,19 +22,19 @@ export default function PurchasePage() {
     {
       id: '1',
       name: 'North American',
-      price: 199900,
+      price: parseInt(process.env.NEXT_PUBLIC_PACKAGE_1_PRICE || '199900'),
       description: '探索北美洲的壮丽风光，包括美国和加拿大的经典景点'
     },
     {
       id: '2',
       name: 'Romantic Europe',
-      price: 299900,
+      price: parseInt(process.env.NEXT_PUBLIC_PACKAGE_2_PRICE || '299900'),
       description: '浪漫欧洲之旅，体验法国、意大利、德国等国的文化魅力'
     },
     {
       id: '3',
       name: 'Wild Africa',
-      price: 399900,
+      price: parseInt(process.env.NEXT_PUBLIC_PACKAGE_3_PRICE || '399900'),
       description: '非洲野生动物大冒险，感受原始自然的震撼力量'
     }
   ])
